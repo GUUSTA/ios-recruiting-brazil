@@ -100,3 +100,56 @@ Deixe o fork público para facilitar a inspeção do código.
 ### **ATENÇÃO**
 
 Não tente fazer o PUSH diretamente para ESTE repositório!
+
+## **Resultado**
+
+---
+
+### **Features mínimas:**
+
+- [x] Tela de Splash
+- [x] Layout em abas, contendo na primeira aba a tela de grid de filmes e na segunda aba a tela de lista de filmes favoritados no app
+- [x] Tela de grid de filmes trazendo a lista de filmes populares da API
+- [x] Tratamento de erros e apresentação dos fluxos de exceção: Busca vazia, loading
+- [x] Ao clicar em um filme do grid deve navegar para a tela de detalhe do filme
+- [x] Tela de Detalhe do filme deve conter ação para favoritar o filme
+- [x] Tela de Detalhe do filme contem gênero do filme por extenso (ex: Action, Horror, etc)
+- [x] Tela de lista de favoritos persistido no app entre sessões
+- [x] Tela de favoritos deve permitir desfavoritar um filme
+
+### **Features extras:**
+
+- [x] Tela de grid e favoritos com busca local
+- [x] Scroll Infinito para fazer paginação da API de filmes populares
+- [x] Célula do Grid de filmes com informação se o filme foi favoritado no app ou não
+- [x] Testes unitários no projeto
+- [x] Testes automatizados (Fastlane)
+
+### **TO DO:**
+
+- [ ] Ao Aplicar o filtro, retornar a tela de favoritos e fazer um filtro local usando as informações selecionadas referentes a data de lançamento e gênero
+- [ ] Testes funcionais
+- [ ] Pipeline Automatizado
+
+### **Aplicações de:**
+
+- Arquitetura VIPER
+- Filmes salvos no CoreData
+- Requisições de API feitas com o Alamofire (CocoaPods)
+- SwiftLint (Ferramenta para "aplicar" o estilo Swift de programar)
+
+### **Como rodar o projeto?**
+
+[CocoaPods](https://cocoapods.org/) foi utilizado como gerenciador de dependência, sendo assim, é necessário fazer as seguintes etapas que o projeto execute corretamente:
+
+*Instalar CocoaPods:*
+
+`$ sudo gem install cocoapods`
+
+*Ir na pasta do projeto onde contem o **.xcworkspace**, e rodar no terminal:*
+
+`$ pod install`
+
+**ATENÇÃO:** Ao ínves abrir o **.xcodeproj**, abra o **.xcworkspace**
+
+### Fim! :smiley:
