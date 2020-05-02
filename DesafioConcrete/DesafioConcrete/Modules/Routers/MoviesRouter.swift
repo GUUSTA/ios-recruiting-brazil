@@ -3,8 +3,8 @@
 
 import UIKit
 
-//MARK: Router -
-protocol MoviesRouterProtocol: class {
+// MARK: Router -
+protocol MoviesRouterProtocol: AnyObject {
     func showDetails(of movie: Movie)
 }
 
@@ -27,7 +27,8 @@ final class MoviesRouter: MoviesRouterProtocol {
     }
     
     func showDetails(of movie: Movie) {
-        guard let moviesView = viewController, let navigationController = moviesView.navigationController else { return }
+        guard let moviesView = viewController,
+              let navigationController = moviesView.navigationController else { return }
         let movieDetailsVC = MovieDetailsRouter.createModule(movie: movie)
         navigationController.pushViewController(movieDetailsVC, animated: true)
     }

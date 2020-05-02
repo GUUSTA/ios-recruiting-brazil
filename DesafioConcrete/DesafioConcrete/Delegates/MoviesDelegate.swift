@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol MoviesDelegate: class {
-    func didSelectMovie(at: IndexPath)
+protocol MoviesDelegate: AnyObject {
+    func didSelectMovie(at item: IndexPath)
     func fetchMoreMovies()
 }

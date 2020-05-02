@@ -3,8 +3,8 @@
 
 import UIKit
 
-//MARK: Router -
-protocol FavoritesRouterProtocol: class {
+// MARK: Router -
+protocol FavoritesRouterProtocol: AnyObject {
 
 }
 

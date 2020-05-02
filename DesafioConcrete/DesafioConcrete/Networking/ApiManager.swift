@@ -16,9 +16,9 @@ class ApiManager: ApiMethodsProtocol {
     static var apiKey: String =  "0570b0af82a221b5511cf9b99c4ffc37"
     static var language: String = "en-US"
     
-    static func getGenres(success: @escaping (Data) -> (), failure: @escaping (Error) -> ()) {
-        let parameters: Parameters = ["api_key":apiKey, "language": language]
-        Alamofire.request(genreURL, method: .get, parameters: parameters).responseJSON { (response) in
+    static func getGenres(success: @escaping (Data) -> Void, failure: @escaping (Error) -> Void) {
+        let parameters: Parameters = ["api_key": apiKey, "language": language]
+        Alamofire.request(genreURL, method: .get, parameters: parameters).responseJSON { response in
             switch response.result {
             case .success:
                 guard let data = response.data else { return }
@@ -29,9 +29,9 @@ class ApiManager: ApiMethodsProtocol {
         }
     }
     
-    static func getMovies(page: Int, success: @escaping (Data) -> (), failure: @escaping (Error) -> ()) {
-        let parameters: Parameters = ["api_key":apiKey, "language": language,"page": page]
-        Alamofire.request(movieURL, method: .get, parameters: parameters).responseJSON { (response) in
+    static func getMovies(page: Int, success: @escaping (Data) -> Void, failure: @escaping (Error) -> Void) {
+        let parameters: Parameters = ["api_key": apiKey, "language": language, "page": page]
+        Alamofire.request(movieURL, method: .get, parameters: parameters).responseJSON { response in
             switch response.result {
             case .success:
                 guard let data = response.data else { return }

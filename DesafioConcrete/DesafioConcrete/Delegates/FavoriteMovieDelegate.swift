@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol FavoriteMovieDelegate: class {
+protocol FavoriteMovieDelegate: AnyObject {
     func favoriteMovie(movie: Movie)
 }

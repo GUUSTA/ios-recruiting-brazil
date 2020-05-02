@@ -12,8 +12,21 @@ import XCTest
 class MovieDetailsViewControllerSpec: XCTestCase {
     
     func testSetup() {
-        let movie = Movie(popularity: 0.0, voteCount: 1, video: false, posterPath: "", id: 1111, adult: false, backdropPath: "", originalLanguage: "", originalTitle: "", genreIds: [1], title: "Frozen II", voteAverage: 1.0, overview: "", releaseDate: "")
-        let vc = MovieDetailsRouter.createModule(movie: movie)
-        _ = vc.view
+        let movie = Movie(popularity: 0.0,
+                          voteCount: 1,
+                          video: false,
+                          posterPath: "",
+                          id: 1111,
+                          adult: false,
+                          backdropPath: "",
+                          originalLanguage: "",
+                          originalTitle: "",
+                          genreIds: [1],
+                          title: "Frozen II",
+                          voteAverage: 1.0,
+                          overview: "",
+                          releaseDate: "")
+        let viewController = MovieDetailsRouter.createModule(movie: movie)
+        _ = viewController.view
     }
 }

@@ -3,10 +3,10 @@
 
 import UIKit
 
-//MARK: View -
-protocol FavoritesViewProtocol: class {
+// MARK: View -
+protocol FavoritesViewProtocol: AnyObject {
     
-    var presenter: FavoritesPresenterProtocol?  { get set }
+    var presenter: FavoritesPresenterProtocol? { get set }
     func setupSearchController()
     func reloadTableView()
     func showResultImage(isHidden: Bool, text: String)
@@ -14,8 +14,8 @@ protocol FavoritesViewProtocol: class {
     /* Presenter -> ViewController */
 }
 
-//MARK: Presenter -
-protocol FavoritesPresenterProtocol: class {
+// MARK: Presenter -
+protocol FavoritesPresenterProtocol: AnyObject {
     
     var interactor: FavoritesInteractorInputProtocol? { get set }
     var movies: [Movie]? { get set }
@@ -31,7 +31,7 @@ protocol FavoritesPresenterProtocol: class {
 
 final class FavoritesPresenter: FavoritesPresenterProtocol {
     
-    weak private var view: FavoritesViewProtocol?
+    private weak var view: FavoritesViewProtocol?
     var interactor: FavoritesInteractorInputProtocol?
     private let router: FavoritesRouterProtocol
     var tableViewDataSource: FavoritesTableViewDataSource?
@@ -39,7 +39,9 @@ final class FavoritesPresenter: FavoritesPresenterProtocol {
     var filteredMovies: [Movie]? = []
     var movies: [Movie]?
     
-    init(interface: FavoritesViewProtocol, interactor: FavoritesInteractorInputProtocol?, router: FavoritesRouterProtocol) {
+    init(interface: FavoritesViewProtocol,
+         interactor: FavoritesInteractorInputProtocol?,
+         router: FavoritesRouterProtocol) {
         self.view = interface
         self.interactor = interactor
         self.router = router
@@ -54,7 +56,9 @@ final class FavoritesPresenter: FavoritesPresenterProtocol {
         guard let movies = movies, let filteredMovies = filteredMovies else { return }
         let moviesToDataSource = isSearchBarEmpty ? movies : filteredMovies
         tableViewDelegate = FavoritesTableViewDelegate(self)
-        tableViewDataSource = FavoritesTableViewDataSource(using: moviesToDataSource, with: tableView, delegate: tableViewDelegate!)
+        tableViewDataSource = FavoritesTableViewDataSource(using: moviesToDataSource,
+                                                           with: tableView,
+                                                           delegate: tableViewDelegate!)
     }
     
     func callSetupSearchController() {
@@ -65,11 +69,11 @@ final class FavoritesPresenter: FavoritesPresenterProtocol {
     func filterMovies(using text: String) {
         guard let movies = movies else { return }
         filteredMovies = movies.filter { (movie: Movie) -> Bool in
-            return movie.title.lowercased().contains(text.lowercased())
+            movie.title.lowercased().contains(text.lowercased())
         }
         
         guard let filteredMovies = filteredMovies, let view = view else { return }
-        if filteredMovies.isEmpty && text != "" {
+        if filteredMovies.isEmpty && text.isEmpty {
             view.showResultImage(isHidden: false, text: text)
         } else {
             view.showResultImage(isHidden: true, text: text)
@@ -83,18 +87,18 @@ final class FavoritesPresenter: FavoritesPresenterProtocol {
     }
 }
 
-//MARK: FavoritesInteractorOutputProtocol
+// MARK: FavoritesInteractorOutputProtocol
 extension FavoritesPresenter: FavoritesInteractorOutputProtocol {
     func sendMovies(movies: [Movie]) {
         self.movies = movies
     }
 }
 
-//MARK: FavoritesDelegate
+// MARK: FavoritesDelegate
 extension FavoritesPresenter: FavoritesDelegate {
-    func unfavoriteMovie(at: Int) {
+    func unfavoriteMovie(atId: Int) {
         guard let movies = movies, let interactor = interactor, let view = view else { return }
-        interactor.unfavorite(movie: movies[at])
+        interactor.unfavorite(movie: movies[atId])
         interactor.requestMovies()
         view.reloadTableView()
     }

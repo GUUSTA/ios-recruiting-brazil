@@ -3,16 +3,16 @@
 
 import UIKit
 
-//MARK: Interactor -
-protocol MovieDetailsInteractorOutputProtocol: class {
+// MARK: Interactor -
+protocol MovieDetailsInteractorOutputProtocol: AnyObject {
 
     func sendGenres(genres: [Genre])
     /* Interactor -> Presenter */
 }
 
-protocol MovieDetailsInteractorInputProtocol: class {
+protocol MovieDetailsInteractorInputProtocol: AnyObject {
 
-    var presenter: MovieDetailsInteractorOutputProtocol?  { get set }
+    var presenter: MovieDetailsInteractorOutputProtocol? { get set }
 
     func requestGenres()
     
@@ -32,8 +32,8 @@ final class MovieDetailsInteractor: MovieDetailsInteractorInputProtocol {
             } catch let error as NSError {
                 print(error)
             }
-        }) { (error) in
+        }, failure: { error in
             print(error)
-        }
+        })
     }
 }

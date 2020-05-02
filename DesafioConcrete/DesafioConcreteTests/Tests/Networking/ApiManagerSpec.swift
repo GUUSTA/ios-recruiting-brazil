@@ -16,14 +16,14 @@ class ApiManagerSpec: XCTestCase {
         
         ApiManager.getGenres(success: { data in
             do {
-                let _ = try JSONDecoder().decode(GenreRoot.self, from: data)
+                _ = try JSONDecoder().decode(GenreRoot.self, from: data)
                 promise.fulfill()
             } catch {
                 XCTFail("StatusCode != 200")
             }
-        }) { (error) in
+        }, failure: { error in
             XCTFail("\(error)")
-        }
+        })
         
         wait(for: [promise], timeout: 5)
     }
@@ -33,14 +33,14 @@ class ApiManagerSpec: XCTestCase {
         
         ApiManager.getMovies(page: 1, success: { data in
             do {
-                let _ = try JSONDecoder().decode(MovieRoot.self, from: data)
+                _ = try JSONDecoder().decode(MovieRoot.self, from: data)
                 promise.fulfill()
             } catch {
                 XCTFail("StatusCode != 200")
             }
-        }) { (error) in
+        }, failure: { error in
             XCTFail("\(error)")
-        }
+        })
         
         wait(for: [promise], timeout: 5)
     }

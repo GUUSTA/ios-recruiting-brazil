@@ -20,10 +20,14 @@ final class MovieDetailsTableViewDataSource: NSObject {
         self.item = item
         self.genres = genres
         self.tableView = tableView
-        tableView.register(MovieDetailsTitleTableViewCell.nib(), forCellReuseIdentifier: MovieDetailsTitleTableViewCell.identifier())
-        tableView.register(MovieDetailsReleaseDateTableViewCell.nib(), forCellReuseIdentifier: MovieDetailsReleaseDateTableViewCell.identifier())
-        tableView.register(MovieDetailsGenreTableViewCell.nib(), forCellReuseIdentifier: MovieDetailsGenreTableViewCell.identifier())
-        tableView.register(MovieDetailsOverviewTableViewCell.nib(), forCellReuseIdentifier: MovieDetailsOverviewTableViewCell.identifier())
+        tableView.register(MovieDetailsTitleTableViewCell.nib(),
+                           forCellReuseIdentifier: MovieDetailsTitleTableViewCell.identifier())
+        tableView.register(MovieDetailsReleaseDateTableViewCell.nib(),
+                           forCellReuseIdentifier: MovieDetailsReleaseDateTableViewCell.identifier())
+        tableView.register(MovieDetailsGenreTableViewCell.nib(),
+                           forCellReuseIdentifier: MovieDetailsGenreTableViewCell.identifier())
+        tableView.register(MovieDetailsOverviewTableViewCell.nib(),
+                           forCellReuseIdentifier: MovieDetailsOverviewTableViewCell.identifier())
         self.tableView?.estimatedRowHeight = 120
         self.tableView?.dataSource = self
         self.tableView?.reloadData()
@@ -33,7 +37,7 @@ final class MovieDetailsTableViewDataSource: NSObject {
 extension MovieDetailsTableViewDataSource: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,21 +45,30 @@ extension MovieDetailsTableViewDataSource: UITableViewDataSource {
         var cell = UITableViewCell()
         guard let movie = item else { return cell }
         if index == 0 {
-            guard let cellTitle = tableView.dequeueReusableCell(withIdentifier: MovieDetailsTitleTableViewCell.identifier(), for: indexPath) as? MovieDetailsTitleTableViewCell
+            guard let cellTitle = tableView.dequeueReusableCell(
+                withIdentifier: MovieDetailsTitleTableViewCell.identifier(),
+                for: indexPath) as? MovieDetailsTitleTableViewCell
                 else { return cell }
             cellTitle.setup(with: movie)
             cellTitle.delegate = self
             cell = cellTitle
         } else if index == 1 {
-            guard let cellReleaseDate = tableView.dequeueReusableCell(withIdentifier: MovieDetailsReleaseDateTableViewCell.identifier(), for: indexPath) as? MovieDetailsReleaseDateTableViewCell else { return cell }
+            guard let cellReleaseDate = tableView.dequeueReusableCell(
+                withIdentifier: MovieDetailsReleaseDateTableViewCell.identifier(),
+                for: indexPath) as? MovieDetailsReleaseDateTableViewCell else { return cell }
             cellReleaseDate.setup(with: movie)
             cell = cellReleaseDate
         } else if index == 2 {
-            guard let cellGenre = tableView.dequeueReusableCell(withIdentifier: MovieDetailsGenreTableViewCell.identifier(), for: indexPath) as? MovieDetailsGenreTableViewCell, let genres = genres else { return cell }
+            guard let cellGenre = tableView.dequeueReusableCell(
+                withIdentifier: MovieDetailsGenreTableViewCell.identifier(),
+                for: indexPath) as? MovieDetailsGenreTableViewCell,
+                let genres = genres else { return cell }
             cellGenre.setup(with: movie, checking: genres)
             cell = cellGenre
         } else {
-            guard let cellOverview = tableView.dequeueReusableCell(withIdentifier: MovieDetailsOverviewTableViewCell.identifier(), for: indexPath) as? MovieDetailsOverviewTableViewCell
+            guard let cellOverview = tableView.dequeueReusableCell(
+                withIdentifier: MovieDetailsOverviewTableViewCell.identifier(),
+                for: indexPath) as? MovieDetailsOverviewTableViewCell
                 else { return cell }
             cellOverview.setup(with: movie)
             cell = cellOverview

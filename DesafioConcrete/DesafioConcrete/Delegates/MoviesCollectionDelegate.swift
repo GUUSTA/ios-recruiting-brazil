@@ -10,7 +10,7 @@ import UIKit
 
 final class MoviesCollectionDelegate: NSObject {
     
-    let delegate: MoviesDelegate
+    weak var delegate: MoviesDelegate?
     
     init(_ delegate: MoviesDelegate) {
         self.delegate = delegate
@@ -19,21 +19,23 @@ final class MoviesCollectionDelegate: NSObject {
 
 extension MoviesCollectionDelegate: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate.didSelectMovie(at: indexPath)
+        delegate?.didSelectMovie(at: indexPath)
     }
 }
 
 extension MoviesCollectionDelegate: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
-        return CGSize(width: screen.width/2 - 15, height: screen.height/3)
+        return CGSize(width: screen.width / 2 - 15, height: screen.height / 3)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         if offsetY > contentHeight - scrollView.frame.height - 30 {
-            delegate.fetchMoreMovies()
+            delegate?.fetchMoreMovies()
         }
     }
 }

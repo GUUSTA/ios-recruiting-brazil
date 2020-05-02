@@ -3,17 +3,17 @@
 
 import UIKit
 
-//MARK: Interactor -
-protocol MoviesInteractorOutputProtocol: class {
+// MARK: Interactor -
+protocol MoviesInteractorOutputProtocol: AnyObject {
     
     /* Interactor -> Presenter */
     func sendData(movies: [Movie])
     func sendMoreData(movies: [Movie])
 }
 
-protocol MoviesInteractorInputProtocol: class {
+protocol MoviesInteractorInputProtocol: AnyObject {
     
-    var presenter: MoviesInteractorOutputProtocol?  { get set }
+    var presenter: MoviesInteractorOutputProtocol? { get set }
     
     func requestDataToApi(page: Int)
     /* Presenter -> Interactor */
@@ -36,8 +36,8 @@ final class MoviesInteractor: MoviesInteractorInputProtocol {
             } catch let error as NSError {
                 print(error)
             }
-        }) { (error) in
+        }, failure: { error in
             print(error)
-        }
+        })
     }
 }

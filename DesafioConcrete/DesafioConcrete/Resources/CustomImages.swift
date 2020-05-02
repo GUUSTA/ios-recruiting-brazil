@@ -14,6 +14,6 @@ enum CustomImages: String {
     case unfavorited = "favorite_gray_icon"
     
     func getImage() -> UIImage {
-        return UIImage(named: "\(self.rawValue)")!
+        UIImage(named: "\(self.rawValue)") ?? UIImage()
     }
 }

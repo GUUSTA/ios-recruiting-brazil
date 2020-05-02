@@ -3,10 +3,10 @@
 
 import UIKit
 
-//MARK: View -
-protocol MoviesViewProtocol: class {
+// MARK: View -
+protocol MoviesViewProtocol: AnyObject {
     
-    var presenter: MoviesPresenterProtocol?  { get set }
+    var presenter: MoviesPresenterProtocol? { get set }
     
     func requestCollectionSetup()
     func createActivityIndicator()
@@ -17,8 +17,8 @@ protocol MoviesViewProtocol: class {
     /* Presenter -> ViewController */
 }
 
-//MARK: Presenter -
-protocol MoviesPresenterProtocol: class {
+// MARK: Presenter -
+protocol MoviesPresenterProtocol: AnyObject {
     
     var interactor: MoviesInteractorInputProtocol? { get set }
     var collectionViewDatasource: MoviesCollectionDataSource? { get set }
@@ -31,7 +31,7 @@ protocol MoviesPresenterProtocol: class {
     func setupView(with collection: UICollectionView, isSearchBarEmpty: Bool)
     func requestData()
     func callCreateActivityIndicator()
-    func setAnimation(to: Bool)
+    func setAnimation(_ activate: Bool)
     func callSetupSearchController()
     func filterMovies(using text: String)
     /* ViewController -> Presenter */
@@ -47,10 +47,9 @@ final class MoviesPresenter: MoviesPresenterProtocol {
     var isSearching: Bool = false
     var filteredMovies: [Movie]? = []
     
-    weak private var view: MoviesViewProtocol?
+    private weak var view: MoviesViewProtocol?
     var interactor: MoviesInteractorInputProtocol?
     private let router: MoviesRouterProtocol
-    
     
     init(interface: MoviesViewProtocol, interactor: MoviesInteractorInputProtocol?, router: MoviesRouterProtocol) {
         self.view = interface
@@ -62,7 +61,9 @@ final class MoviesPresenter: MoviesPresenterProtocol {
         guard let movies = movies, let filteredMovies = filteredMovies else { return }
         let moviesToDataSource = isSearchBarEmpty ? movies : filteredMovies
         collectionViewDelegate = MoviesCollectionDelegate(self)
-        collectionViewDatasource = MoviesCollectionDataSource(with: moviesToDataSource, collectionView: collection, delegate: collectionViewDelegate!)
+        collectionViewDatasource = MoviesCollectionDataSource(with: moviesToDataSource,
+                                                              collectionView: collection,
+                                                              delegate: collectionViewDelegate!)
     }
     
     func requestData() {
@@ -75,9 +76,9 @@ final class MoviesPresenter: MoviesPresenterProtocol {
         view.createActivityIndicator()
     }
     
-    func setAnimation(to: Bool) {
+    func setAnimation(_ activate: Bool) {
         guard let view = view else { return }
-        view.changeIsAnimating(to: to)
+        view.changeIsAnimating(to: activate)
     }
     
     func callSetupSearchController() {
@@ -86,14 +87,14 @@ final class MoviesPresenter: MoviesPresenterProtocol {
     }
     
     func filterMovies(using text: String) {
-        isSearching = text != "" ? true : false
+        isSearching = !text.isEmpty ? true : false
         guard let movies = movies else { return }
         filteredMovies = movies.filter { (movie: Movie) -> Bool in
-            return movie.title.lowercased().contains(text.lowercased())
+            movie.title.lowercased().contains(text.lowercased())
         }
         
         guard let filteredMovies = filteredMovies, let view = view else { return }
-        if filteredMovies.isEmpty && text != "" {
+        if filteredMovies.isEmpty && !text.isEmpty {
             view.showResultImage(isHidden: false, text: text)
         } else {
             view.showResultImage(isHidden: true, text: text)
@@ -102,12 +103,12 @@ final class MoviesPresenter: MoviesPresenterProtocol {
     }
 }
 
-//MARK: - MoviesInteractorOutputProtocol
+// MARK: - MoviesInteractorOutputProtocol
 extension MoviesPresenter: MoviesInteractorOutputProtocol {
     func sendMoreData(movies: [Movie]) {
         guard let allMovies = self.movies else { return }
         if !allMovies.isEmpty {
-            self.movies! += movies
+            self.movies? += movies
         }
         
         guard let view = view else { return }
@@ -123,7 +124,7 @@ extension MoviesPresenter: MoviesInteractorOutputProtocol {
     }
 }
 
-//MARK: - MoviesDelegate
+// MARK: - MoviesDelegate
 extension MoviesPresenter: MoviesDelegate {
     func fetchMoreMovies() {
         if !fetchingMore && !isSearching {
@@ -135,8 +136,8 @@ extension MoviesPresenter: MoviesDelegate {
         }
     }
     
-    func didSelectMovie(at: IndexPath) {
+    func didSelectMovie(at item: IndexPath) {
         guard let movies = movies else { return }
-        router.showDetails(of: movies[at.row])
+        router.showDetails(of: movies[item.row])
     }
 }

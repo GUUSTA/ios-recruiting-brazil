@@ -12,7 +12,7 @@ import XCTest
 class MoviesViewControllerSpec: XCTestCase {
     
     func testSetup() {
-        let vc = MoviesRouter.createModule()
+        let viewController = MoviesRouter.createModule()
         _ = vc.view
     }
 }

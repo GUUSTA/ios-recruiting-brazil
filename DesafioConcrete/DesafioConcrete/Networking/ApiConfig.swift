@@ -14,6 +14,9 @@ protocol ApiMethodsProtocol {
     static var apiKey: String { get set }
     static var language: String { get set }
     
-    static func getMovies(page: Int, success: @escaping (_ response : Data) -> (), failure: @escaping (_ error : Error) -> ())
-    static func getGenres(success: @escaping (_ response : Data) -> (), failure: @escaping (_ error : Error) -> ())
+    static func getMovies(page: Int,
+                          success: @escaping (_ response: Data) -> Void,
+                          failure: @escaping (_ error: Error) -> Void)
+    static func getGenres(success: @escaping (_ response: Data) -> Void,
+                          failure: @escaping (_ error: Error) -> Void)
 }

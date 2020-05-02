@@ -12,8 +12,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene(_ scene: UIScene,
+               willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
@@ -22,8 +23,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let favoritesController = FavoritesRouter.createModule()
         let moviesNavigation = UINavigationController(rootViewController: moviesController)
         let favoritesNavigation = UINavigationController(rootViewController: favoritesController)
-        moviesNavigation.tabBarItem = UITabBarItem(title: "Movies", image: UIImage(named: "list_icon")?.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "list_icon")?.withRenderingMode(.alwaysOriginal))
-        favoritesNavigation.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(named: "favorite_empty_icon")?.withRenderingMode(.alwaysOriginal), selectedImage: UIImage(named: "favorite_empty_icon")?.withRenderingMode(.alwaysOriginal))
+        let listIconimage = UIImage(named: "list_icon")?.withRenderingMode(.alwaysOriginal)
+        let favoriteEmptyImage = UIImage(named: "favorite_empty_icon")?.withRenderingMode(.alwaysOriginal)
+        moviesNavigation.tabBarItem = UITabBarItem(title: "Movies",
+                                                   image: listIconimage,
+                                                   selectedImage: listIconimage)
+        favoritesNavigation.tabBarItem = UITabBarItem(title: "Favorites",
+                                                      image: favoriteEmptyImage,
+                                                      selectedImage: favoriteEmptyImage)
         tabBar.viewControllers = [moviesNavigation, favoritesNavigation]
         
         ApperanceHelper.customizeNavigationBar()
@@ -34,6 +41,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
     }
     
-    
 }
-

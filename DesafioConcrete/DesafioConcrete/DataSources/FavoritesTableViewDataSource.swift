@@ -19,7 +19,8 @@ final class FavoritesTableViewDataSource: NSObject {
         self.items = item
         self.tableView = tableView
         self.delegate = delegate
-        tableView.register(FavoriteMovieTableViewCell.nib(), forCellReuseIdentifier: FavoriteMovieTableViewCell.identifier())
+        tableView.register(FavoriteMovieTableViewCell.nib(),
+                           forCellReuseIdentifier: FavoriteMovieTableViewCell.identifier())
         self.tableView?.estimatedRowHeight = 100
         self.tableView?.delegate = self.delegate
         self.tableView?.dataSource = self
@@ -33,11 +34,12 @@ final class FavoritesTableViewDataSource: NSObject {
 
 extension FavoritesTableViewDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteMovieTableViewCell.identifier(), for: indexPath) as? FavoriteMovieTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteMovieTableViewCell.identifier(),
+                                                       for: indexPath) as? FavoriteMovieTableViewCell
             else { return UITableViewCell() }
         cell.setup(with: items[indexPath.row])
         return cell

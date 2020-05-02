@@ -17,8 +17,10 @@ final class DataManager {
     func createData(movie: Movie) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedcontext = appDelegate.persistentContainer.viewContext
-        let movieIdEntity = NSEntityDescription.entity(forEntityName: "MovieEntity", in: managedcontext)!
-        let newMovie = NSManagedObject(entity: movieIdEntity, insertInto: managedcontext)
+        guard let movieIdEntity = NSEntityDescription.entity(forEntityName: "MovieEntity",
+                                                             in: managedcontext) else { return }
+        let newMovie = NSManagedObject(entity: movieIdEntity,
+                                       insertInto: managedcontext)
         newMovie.setValue(movie.id, forKey: "id")
         newMovie.setValue(movie.overview, forKey: "overview")
         newMovie.setValue(movie.posterPath, forKey: "posterPath")
@@ -33,24 +35,39 @@ final class DataManager {
         }
     }
     
-    func getData() -> [Movie] {
+    func getData() -> [Movie]? {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return [] }
         let managedcontext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "MovieEntity")
         var results: [Movie] = []
         do {
             let result = try managedcontext.fetch(fetchRequest)
-            for data in result as! [NSManagedObject] {
-                let id = data.value(forKey: "id") as! Int
-                let overview = data.value(forKey: "overview") as! String
-                let posterPath = data.value(forKey: "posterPath") as! String
-                let releaseDate = data.value(forKey: "releaseDate") as! String
-                let title = data.value(forKey: "title") as! String
-                let genres = data.value(forKey: "genres") as! [Int]
-                let movie = Movie(popularity: 0.0, voteCount: 1, video: false, posterPath: posterPath, id: id, adult: false, backdropPath: "", originalLanguage: "", originalTitle: "", genreIds: genres, title: title, voteAverage: 1.0, overview: overview, releaseDate: releaseDate)
+            guard let objectsResults = result as? [NSManagedObject] else { return nil }
+            for data in objectsResults {
+                guard let movieId = data.value(forKey: "id") as? Int,
+                    let overview = data.value(forKey: "overview") as? String,
+                    let posterPath = data.value(forKey: "posterPath") as? String,
+                    let releaseDate = data.value(forKey: "releaseDate") as? String,
+                    let title = data.value(forKey: "title") as? String,
+                    let genres = data.value(forKey: "genres") as? [Int]
+                    else { return nil }
+                let movie = Movie(popularity: 0.0,
+                                  voteCount: 1,
+                                  video: false,
+                                  posterPath: posterPath,
+                                  id: movieId,
+                                  adult: false,
+                                  backdropPath: "",
+                                  originalLanguage: "",
+                                  originalTitle: "",
+                                  genreIds: genres,
+                                  title: title,
+                                  voteAverage: 1.0,
+                                  overview: overview,
+                                  releaseDate: releaseDate)
                 results.append(movie)
             }
-        } catch (let error){
+        } catch let error {
             print("Failed \(error)")
         }
         return results
@@ -63,18 +80,20 @@ final class DataManager {
         
         do {
             let result = try managedcontext.fetch(fetchRequest)
+            guard let results = result as? [NSManagedObject] else { return }
             var objectToDelete: NSManagedObject?
-            for data in result as! [NSManagedObject] where (data.value(forKey: "id") as! Int) == movieId {
+
+            for data in results where (data.value(forKey: "id") as? Int) == movieId {
                 objectToDelete = data
             }
             guard let object = objectToDelete else { return }
             managedcontext.delete(object)
             do {
                 try managedcontext.save()
-            } catch (let error) {
+            } catch let error {
                 print("Failed \(error)")
             }
-        } catch (let error) {
+        } catch let error {
             print("Failed \(error)")
         }
     }
@@ -86,10 +105,11 @@ final class DataManager {
         
         do {
             let result = try managedcontext.fetch(fetchRequest)
-            for data in result as! [NSManagedObject] where (data.value(forKey: "id") as! Int) == movieId {
+            guard let results = result as? [NSManagedObject] else { return false }
+            for data in results where (data.value(forKey: "id") as? Int) == movieId {
                 return true
             }
-        } catch (let error) {
+        } catch let error {
             print("Failed \(error)")
         }
         

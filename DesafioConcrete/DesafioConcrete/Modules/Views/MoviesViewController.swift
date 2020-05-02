@@ -3,9 +3,8 @@
 
 import UIKit
 
-
 final class MoviesViewController: UIViewController {
-    //MARK: - Variables
+    // MARK: - Variables
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var imgSearchEmptyState: UIImageView!
@@ -15,12 +14,12 @@ final class MoviesViewController: UIViewController {
     var activityIndicatorView = UIActivityIndicatorView()
     let searchController = UISearchController(searchResultsController: nil)
     var isSearchBarEmpty: Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
+        searchController.searchBar.text?.isEmpty ?? true
     }
     var presenter: MoviesPresenterProtocol?
 }
 
-//MARK: - Life cycles
+// MARK: - Life cycles
 extension MoviesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,17 +32,16 @@ extension MoviesViewController {
         self.title = "Movies"
         guard let presenter = presenter else { return }
         presenter.callCreateActivityIndicator()
-        presenter.setAnimation(to: true)
+        presenter.setAnimation(true)
         presenter.requestData()
     }
 }
 
-
-//MARK: - MoviesView
+// MARK: - MoviesView
 extension MoviesViewController: MoviesViewProtocol {
     func requestCollectionSetup() {
         guard let presenter = presenter else { return }
-        presenter.setAnimation(to: false)
+        presenter.setAnimation(false)
         presenter.setupView(with: collectionView, isSearchBarEmpty: isSearchBarEmpty)
     }
     
@@ -82,7 +80,7 @@ extension MoviesViewController: MoviesViewProtocol {
     }
 }
 
-//MARK: - UISearchResultsUpdating
+// MARK: - UISearchResultsUpdating
 extension MoviesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let presenter = presenter, let text = searchController.searchBar.text else { return }

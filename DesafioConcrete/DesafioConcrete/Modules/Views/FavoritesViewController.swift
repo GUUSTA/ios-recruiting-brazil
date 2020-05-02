@@ -4,7 +4,7 @@
 import UIKit
 
 final class FavoritesViewController: UIViewController {
-    //MARK: - Variables
+    // MARK: - Variables
     var presenter: FavoritesPresenterProtocol?
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var btnRemoveFilter: UIButton!
@@ -14,11 +14,11 @@ final class FavoritesViewController: UIViewController {
     var activityIndicatorView = UIActivityIndicatorView()
     let searchController = UISearchController(searchResultsController: nil)
     var isSearchBarEmpty: Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
+        searchController.searchBar.text?.isEmpty ?? true
     }
 }
 
-//MARK: - Life cycles
+// MARK: - Life cycles
 extension FavoritesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +36,7 @@ extension FavoritesViewController {
     }
 }
 
-//MARK: - FavoritesViewProtocol
+// MARK: - FavoritesViewProtocol
 extension FavoritesViewController: FavoritesViewProtocol {
     func showResultImage(isHidden: Bool, text: String) {
         imgSearchEmptyState.isHidden = isHidden
@@ -60,11 +60,15 @@ extension FavoritesViewController: FavoritesViewProtocol {
     }
     
     func createFilterButton() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: CustomImages.filter.getImage(), style: .plain, target: self, action: #selector(filterTapped))
+        let barButtonItem = UIBarButtonItem(image: CustomImages.filter.getImage(),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(filterTapped))
+        self.navigationItem.rightBarButtonItem = barButtonItem
     }
 }
 
-//MARK: -
+// MARK: - Filters
 extension FavoritesViewController {
     @objc
     func filterTapped() {
@@ -72,11 +76,10 @@ extension FavoritesViewController {
     }
 }
 
-//MARK: - UISearchResultsUpdating
+// MARK: - UISearchResultsUpdating
 extension FavoritesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let presenter = presenter, let text = searchController.searchBar.text else { return }
         presenter.filterMovies(using: text)
     }
 }
-

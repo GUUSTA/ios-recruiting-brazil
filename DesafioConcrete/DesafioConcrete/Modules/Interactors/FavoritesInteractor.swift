@@ -3,16 +3,16 @@
 
 import UIKit
 
-//MARK: Interactor -
-protocol FavoritesInteractorOutputProtocol: class {
+// MARK: Interactor -
+protocol FavoritesInteractorOutputProtocol: AnyObject {
     
     func sendMovies(movies: [Movie])
     /* Interactor -> Presenter */
 }
 
-protocol FavoritesInteractorInputProtocol: class {
+protocol FavoritesInteractorInputProtocol: AnyObject {
     
-    var presenter: FavoritesInteractorOutputProtocol?  { get set }
+    var presenter: FavoritesInteractorOutputProtocol? { get set }
     func requestMovies()
     func unfavorite(movie: Movie)
     /* Presenter -> Interactor */
@@ -23,8 +23,8 @@ final class FavoritesInteractor: FavoritesInteractorInputProtocol {
     weak var presenter: FavoritesInteractorOutputProtocol?
     
     func requestMovies() {
-        let movies = DataManager.shared.getData()
-        guard let presenter = presenter else { return }
+        guard let presenter = presenter,
+              let movies = DataManager.shared.getData() else { return }
         presenter.sendMovies(movies: movies)
     }
     

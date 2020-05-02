@@ -11,15 +11,15 @@ import UIKit
 final class MovieDetailsReleaseDateTableViewCell: UITableViewCell {
     
     static func fileName() -> String {
-        return String(describing: self)
+        String(describing: self)
     }
     
     static func nib() -> UINib {
-        return UINib(nibName: fileName(), bundle: nil)
+        UINib(nibName: fileName(), bundle: nil)
     }
     
     static func identifier() -> String {
-        return "movieReleaseDateCell"
+        "movieReleaseDateCell"
     }
 
     @IBOutlet weak var lblYear: UILabel!

@@ -3,30 +3,30 @@
 import UIKit
 
 final class MovieDetailsViewController: UIViewController {
-    //MARK: - Variables
+    // MARK: - Variables
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var detalisTableView: UITableView!
     var activityIndicatorView = UIActivityIndicatorView()
     var presenter: MovieDetailsPresenterProtocol?
 }
 
-//MARK: - Life cycles
+// MARK: - Life cycles
 extension MovieDetailsViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = "Movie"
         guard let presenter = presenter else { return }
         presenter.callCreateActivityIndicator()
-        presenter.setAnimation(to: true)
+        presenter.setAnimation(true)
         presenter.getGenres()
     }
 }
 
-//MARK: - MovieDetailsViewProtocol
+// MARK: - MovieDetailsViewProtocol
 extension MovieDetailsViewController: MovieDetailsViewProtocol {
     func requestViewSetup() {
         guard let presenter = presenter else { return }
-        presenter.setAnimation(to: false)
+        presenter.setAnimation(false)
         presenter.setupView(with: detalisTableView, and: posterImageView)
     }
     

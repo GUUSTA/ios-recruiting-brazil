@@ -3,18 +3,18 @@
 
 import UIKit
 
-//MARK: View -
-protocol MovieDetailsViewProtocol: class {
+// MARK: View -
+protocol MovieDetailsViewProtocol: AnyObject {
     
-    var presenter: MovieDetailsPresenterProtocol?  { get set }
+    var presenter: MovieDetailsPresenterProtocol? { get set }
     func requestViewSetup()
     func createActivityIndicator()
     func changeIsAnimating(to animation: Bool)
     /* Presenter -> ViewController */
 }
 
-//MARK: Presenter -
-protocol MovieDetailsPresenterProtocol: class {
+// MARK: Presenter -
+protocol MovieDetailsPresenterProtocol: AnyObject {
     
     var interactor: MovieDetailsInteractorInputProtocol? { get set }
     var tableViewDatasource: MovieDetailsTableViewDataSource? { get set }
@@ -22,14 +22,15 @@ protocol MovieDetailsPresenterProtocol: class {
     var genres: [Genre]? { get set }
     
     func callCreateActivityIndicator()
-    func setAnimation(to: Bool)
-    func setupView(with tableView: UITableView, and imageView: UIImageView)
+    func setAnimation(_ activate: Bool)
+    func setupView(with tableView: UITableView,
+                   and imageView: UIImageView)
     func getGenres()
 }
 
 final class MovieDetailsPresenter: MovieDetailsPresenterProtocol {
     
-    weak private var view: MovieDetailsViewProtocol?
+    private weak var view: MovieDetailsViewProtocol?
     var interactor: MovieDetailsInteractorInputProtocol?
     private let router: MovieDetailsRouterProtocol
     
@@ -37,21 +38,27 @@ final class MovieDetailsPresenter: MovieDetailsPresenterProtocol {
     var movie: Movie?
     var genres: [Genre]?
     
-    init(interface: MovieDetailsViewProtocol, interactor: MovieDetailsInteractorInputProtocol?, router: MovieDetailsRouterProtocol) {
+    init(interface: MovieDetailsViewProtocol,
+         interactor: MovieDetailsInteractorInputProtocol?,
+         router: MovieDetailsRouterProtocol) {
         self.view = interface
         self.interactor = interactor
         self.router = router
     }
     
-    func setupView(with tableView: UITableView, and imageView: UIImageView) {
+    func setupView(with tableView: UITableView,
+                   and imageView: UIImageView) {
         guard let movie = movie else { return }
         imageView.downloaded(from: movie.posterPath, contentMode: .scaleToFill)
         setupTable(with: tableView, using: movie)
     }
     
-    private func setupTable(with tableView: UITableView, using movie: Movie) {
+    private func setupTable(with tableView: UITableView,
+                            using movie: Movie) {
         guard let genres = genres else { return }
-        tableViewDatasource = MovieDetailsTableViewDataSource(using: movie, with: tableView, checking: genres)
+        tableViewDatasource = MovieDetailsTableViewDataSource(using: movie,
+                                                              with: tableView,
+                                                              checking: genres)
     }
     
     func getGenres() {
@@ -64,13 +71,13 @@ final class MovieDetailsPresenter: MovieDetailsPresenterProtocol {
         view.createActivityIndicator()
     }
     
-    func setAnimation(to: Bool) {
+    func setAnimation(_ activate: Bool) {
         guard let view = view else { return }
-        view.changeIsAnimating(to: to)
+        view.changeIsAnimating(to: activate)
     }
 }
 
-//MARK: MovieDetailsInteractorOutputProtocol -
+// MARK: MovieDetailsInteractorOutputProtocol -
 extension MovieDetailsPresenter: MovieDetailsInteractorOutputProtocol {
     func sendGenres(genres: [Genre]) {
         self.genres = genres

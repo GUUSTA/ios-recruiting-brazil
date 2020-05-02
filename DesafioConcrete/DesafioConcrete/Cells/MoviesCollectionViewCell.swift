@@ -15,15 +15,16 @@ final class MoviesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imgFavorite: UIImageView!
     
     static func fileName() -> String {
-        return String(describing: self)
+        String(describing: self)
     }
     
     static func nib() -> UINib {
-        return UINib(nibName: fileName(), bundle: nil)
+        UINib(nibName: fileName(),
+              bundle: nil)
     }
     
     static func identifier() -> String {
-        return "movieCollection"
+        "movieCollection"
     }
     
     var item: Movie?
@@ -35,8 +36,9 @@ final class MoviesCollectionViewCell: UICollectionViewCell {
         } else {
             self.imgFavorite.image = CustomImages.unfavorited.getImage()
         }
-        if item.posterPath != "" {
-            movieImage.downloaded(from: item.posterPath, contentMode: .scaleAspectFill)
+        if !item.posterPath.isEmpty {
+            movieImage.downloaded(from: item.posterPath,
+                                  contentMode: .scaleAspectFill)
         }
         movieName.text = item.title
     }

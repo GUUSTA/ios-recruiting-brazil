@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct ApperanceHelper {
+enum ApperanceHelper {
     
     static func customizeTabBar() {
         let tabBarAppearace = UITabBar.appearance()

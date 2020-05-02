@@ -558,6 +558,7 @@
 				ECFD97792389D6D0003D2799 /* Frameworks */,
 				ECFD977A2389D6D0003D2799 /* Resources */,
 				77293C4BD727FCB138FFF702 /* [CP] Embed Pods Frameworks */,
+				EC5EBDA5245CD0B50051C4F2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -714,6 +715,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DesafioConcrete/Pods-DesafioConcrete-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		EC5EBDA5245CD0B50051C4F2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -13,7 +13,10 @@ class ConfigGenreSpec: XCTestCase {
     
     func testAssigningGenreIdsToStrings() {
         
-        let allGenres: [Genre] = [Genre(id: 16, name: "Animation"), Genre(id: 10402, name: "Family"), Genre(id: 10751, name: "Music"), Genre(id: 35, name: "Comedy")]
+        let allGenres: [Genre] = [Genre(id: 16, name: "Animation"),
+                                  Genre(id: 10402, name: "Family"),
+                                  Genre(id: 10751, name: "Music"),
+                                  Genre(id: 35, name: "Comedy")]
         let genres: [Int] = [16, 10402, 10751]
         var genresString: [String] = []
         for genre in allGenres where genres.contains(genre.id) {

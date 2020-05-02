@@ -3,8 +3,8 @@
 
 import UIKit
 
-//MARK: Router -
-protocol MovieDetailsRouterProtocol: class {
+// MARK: Router -
+protocol MovieDetailsRouterProtocol: AnyObject {
 
 }
 

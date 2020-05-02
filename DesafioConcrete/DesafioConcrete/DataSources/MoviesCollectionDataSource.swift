@@ -19,7 +19,8 @@ final class MoviesCollectionDataSource: NSObject {
         self.items = items
         self.collectionView = collectionView
         self.delegate = delegate
-        collectionView.register(MoviesCollectionViewCell.nib(), forCellWithReuseIdentifier: MoviesCollectionViewCell.identifier())
+        collectionView.register(MoviesCollectionViewCell.nib(),
+                                forCellWithReuseIdentifier: MoviesCollectionViewCell.identifier())
         self.collectionView?.dataSource = self
         self.collectionView?.delegate = self.delegate
         self.collectionView?.reloadData()
@@ -29,11 +30,14 @@ final class MoviesCollectionDataSource: NSObject {
 extension MoviesCollectionDataSource: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        items.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.identifier(), for: indexPath) as? MoviesCollectionViewCell else { return UICollectionViewCell() }
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MoviesCollectionViewCell.identifier(),
+            for: indexPath) as? MoviesCollectionViewCell else { return UICollectionViewCell() }
         let item = items[indexPath.item]
         cell.setup(with: item)
         return cell

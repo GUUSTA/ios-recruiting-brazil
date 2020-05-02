@@ -12,7 +12,7 @@ import XCTest
 class FavoritesViewControllerSpec: XCTestCase {
     
     func testSetup() {
-        let vc = FavoritesRouter.createModule()
-        _ = vc.view
+        let viewController = FavoritesRouter.createModule()
+        _ = viewController.view
     }
 }
